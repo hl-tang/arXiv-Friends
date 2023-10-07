@@ -17,3 +17,13 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 まず`nodejs`をインストールして
 
 ./clientというフォルダーの中に`npm install`してから`npm run dev`実行したら、`http://127.0.0.1:5173/`で画面が見られるはずだ
+
+
+
+### How to use docker to run client
+
+```
+sudo docker build -t arxivkids_client .
+sudo docker run -d --name frontend -p 5173:5173 arxivkids_client
+```
+
