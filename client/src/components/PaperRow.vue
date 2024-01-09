@@ -126,14 +126,17 @@ const goDetailPaper = () => {
         .then(res => {
             // console.log(2)
             waitingPaper.value = false
-            // console.log(res.data)
+            console.log("Response Data:", res.data);
             currentDetailPaper.value = res.data
+            console.log(currentDetailPaper.value )
             localStorage.setItem('current_paper_detail', JSON.stringify(res.data));
         })
         .catch((err) => {
             console.log(err)
         })
     // console.log(3)
+    // !!!!!!
+    // waitingPaper.value = false //放这就不对了！！！马上又赋值为false，不会有loading的效果
 
     //已经入手的数据先展示在detailpaper上
     choosedPaperInfoStore.Title_En = Title_En.value

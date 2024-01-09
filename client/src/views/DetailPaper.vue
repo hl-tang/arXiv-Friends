@@ -168,6 +168,8 @@ if (revisit == "false") {
   choosedPaperInfoStore = JSON.parse(localStorage.getItem('current_paper'));
 }
 
+console.log("currentDetailPaper.Content_En", currentDetailPaper.Content_En);
+
 
 // const showJP = ref(true)
 // const showEN = ref(false)
