@@ -20,7 +20,7 @@
 
           <div class="mx-8 my-4">
 
-            <el-tabs type="border-card">
+            <!-- <el-tabs type="border-card">
               <el-tab-pane label="English Abstract">
                 <div class="mt-3 text-lg mx-6 indent-8">
                   {{ currentDetailPaper.Content_En }}
@@ -34,7 +34,35 @@
               <el-tab-pane label="簡易な日本語" class="mt-3 text-lg mx-6 indent-8">
                 {{ currentDetailPaper.Content_plain }}
               </el-tab-pane>
-            </el-tabs>
+            </el-tabs> -->
+
+            <v-card :color="isDark ? 'grey-darken-4' : 'white'">
+              <v-tabs v-model="tab" color="red-lighten-1" bg-color="grey-darken-2" align-tabs="center">
+                <v-tab value="1">English Abstract</v-tab>
+                <v-tab value="2">日本語の要旨</v-tab>
+                <v-tab value="3">簡易な日本語</v-tab>
+              </v-tabs>
+
+              <v-card-text>
+                <v-window v-model="tab">
+                  <v-window-item value="1" >
+                    <div class="mt-3 text-lg mx-6 indent-8">
+                      {{ currentDetailPaper.Content_En }}
+                    </div>
+                  </v-window-item>
+
+                  <v-window-item value="2">
+                    <div class="mt-3 text-lg mx-6 indent-8">
+                      {{ currentDetailPaper.Content_Ja }}
+                    </div>
+                  </v-window-item>
+
+                  <v-window-item value="3" class="mt-3 text-lg mx-6 indent-8">
+                    {{ currentDetailPaper.Content_plain }}
+                  </v-window-item>
+                </v-window>
+              </v-card-text>
+            </v-card>
 
 
             <!-- <div class="flex justify-end mb-2 ">
@@ -135,6 +163,10 @@ import axios from 'axios'
 // import '../mock/paper'
 import { useI18n } from 'vue-i18n'
 const { t } =useI18n()
+
+const tab = ref("null") //vuetify的tab
+import { useDark } from '@vueuse/core'
+const isDark = useDark()
 
 import { storeToRefs } from 'pinia'
 import { useCurrentDetailPaperStore } from '../stores/currentDetailPaper'

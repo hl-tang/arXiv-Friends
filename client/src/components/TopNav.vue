@@ -35,7 +35,7 @@
             <!-- <i inline-block align-middle i="dark:carbon-moon carbon-sun" /> -->
             <span class="">{{ isDark ? 'Dark' : 'Light' }}</span>
           </button>
-          <el-switch v-model="isDark" class="" style="--el-switch-on-color: #2F4F4F; --el-switch-off-color: #D3D3D3"
+          <el-switch v-model="isDark" class="" style="--el-switch-on-color: #223030; --el-switch-off-color: #D3D3D3"
             inline-prompt :active-icon="Sunny" :inactive-icon="Moon" size="large" />
         </div>
 
