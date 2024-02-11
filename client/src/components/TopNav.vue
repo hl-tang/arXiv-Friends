@@ -33,10 +33,10 @@
         <div class="flex items-center mr-5">
           <button @click="toggleDark()" class="mr-1">
             <!-- <i inline-block align-middle i="dark:carbon-moon carbon-sun" /> -->
-            <span class="">{{ isDark ? 'Dark' : 'Light' }}</span>
+            <!-- <span class="">{{ isDark ? 'Dark' : 'Light' }}</span> 不显示文字-->
           </button>
-          <el-switch v-model="isDark" class="" style="--el-switch-on-color: #223030; --el-switch-off-color: #D3D3D3"
-            inline-prompt :active-icon="Sunny" :inactive-icon="Moon" size="large" />
+          <el-switch v-model="isDark" class="" style="--el-switch-on-color: #223030; --el-switch-off-color: #C4C4C4"
+            inline-prompt :active-icon="Moon" :inactive-icon="Sunny" size="large" />
         </div>
 
         <div v-if="!isLogined" class="flex items-center">

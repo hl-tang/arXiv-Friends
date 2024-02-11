@@ -45,7 +45,7 @@
 
               <v-card-text>
                 <v-window v-model="tab">
-                  <v-window-item value="1" >
+                  <v-window-item value="1">
                     <div class="mt-3 text-lg mx-6 indent-8">
                       {{ currentDetailPaper.Content_En }}
                     </div>
@@ -94,22 +94,49 @@
         <el-container class="main-footer-container">
           <el-main class="main-container space-y-2">
             <div>
-              <span class="mr-4">{{ t('authors') }}:</span>
+              <span class="flex">
+                <AccountSchoolIcon :size="25" fillColor="#636363" />
+                <span class="ml-1 mr-4">{{ t('authors') }}:</span>
+              </span>
               <!-- {{ choosedPaperInfoStore.Authors }} -->
               <!-- bug:最后一个item会显示, -->
-              <span v-for="name in choosedPaperInfoStore.Authors" :key="name" class="mr-2 text-blue-600">
+              <span v-for="name in choosedPaperInfoStore.Authors" :key="name" class="mr-2">
                 {{ name }},
               </span>
             </div>
 
-            <div>
-              <span class="mr-4">{{ t('published') }}:</span>
+            <!-- <div style="display: flex; align-items: center;">
+              <div>
+                <AccountSchoolIcon :size="25" fillColor="#636363" />
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div>{{ t('authors') }}:</div>
+                <div>
+                  <span v-for="name in choosedPaperInfoStore.Authors" :key="name" class="mr-2 text-blue-600">
+                    {{ name }},
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex">
+              <AccountSchoolIcon :size="25" fillColor="#636363" />
+              <span class="mr-4">{{ t('authors') }}:</span>
+              <span v-for="name in choosedPaperInfoStore.Authors" :key="name" class="mr-2 text-blue-600">
+                {{ name }},
+              </span>
+            </div> -->
+
+            <div class="flex items-center">
+              <CalendarClockIcon :size="25" fillColor="#636363" />
+              <span class="ml-1 mr-4">{{ t('published') }}:</span>
               <!-- {{ choosedPaperInfoStore.Published }} -->
               <span class="date">{{ formatDate(choosedPaperInfoStore.Published) }}</span>
             </div>
 
-            <div>
-              <span class="mr-4">{{ t('categories') }}:</span>
+            <div class="flex">
+              <ChartPieIcon :size="25" fillColor="#636363" />
+              <span class="ml-1 mr-4">{{ t('categories') }}:</span>
               <!-- {{ choosedPaperInfoStore.Categories }} -->
               <!-- bug:最后一个item会显示, -->
               <span v-for="Category in choosedPaperInfoStore.Categories" :key="Category" class="mr-2 ">
@@ -117,9 +144,11 @@
               </span>
             </div>
 
-            <div>
-              <span class="mr-4">{{ t('download') }}:</span>
-              <a :href="choosedPaperInfoStore.Pdf_url" target="_blank" class="underline decoration-dashed decoration-pink-600">[pdf]</a>
+            <div class="flex">
+              <FileDownloadIcon :size="25" fillColor="#636363" />
+              <span class="ml-1 mr-4">{{ t('download') }}:</span>
+              <a :href="choosedPaperInfoStore.Pdf_url" target="_blank"
+                class="underline decoration-dashed decoration-pink-600">[pdf]</a>
             </div>
 
 
@@ -162,11 +191,17 @@ import { ref } from "vue"
 import axios from 'axios'
 // import '../mock/paper'
 import { useI18n } from 'vue-i18n'
-const { t } =useI18n()
+const { t } = useI18n()
 
 const tab = ref("null") //vuetify的tab
 import { useDark } from '@vueuse/core'
 const isDark = useDark()
+
+import AccountSchoolIcon from "vue-material-design-icons/AccountSchool.vue";
+import CalendarClockIcon from "vue-material-design-icons/CalendarClock.vue";
+import ChartPieIcon from "vue-material-design-icons/ChartPie.vue";
+import FileDownloadIcon from "vue-material-design-icons/FileDownload.vue";
+
 
 import { storeToRefs } from 'pinia'
 import { useCurrentDetailPaperStore } from '../stores/currentDetailPaper'
@@ -176,7 +211,7 @@ let revisit = localStorage.getItem('status');
 
 let currentDetailPaper;
 if (revisit == "false") {
-  currentDetailPaper  = storeToRefs(useCurrentDetailPaperStore()).currentDetailPaper;
+  currentDetailPaper = storeToRefs(useCurrentDetailPaperStore()).currentDetailPaper;
 } else {
   currentDetailPaper = JSON.parse(localStorage.getItem('current_paper_detail'));
   // console.log(currentDetailPaper)
@@ -263,7 +298,7 @@ console.log("currentDetailPaper.Content_En", currentDetailPaper.Content_En);
 //         "Published": choosedPaperInfoStore.Published,
 //         "Content_En": choosedPaperInfoStore.Content_En,
 //         "Pdf_url": choosedPaperInfoStore.Pdf_url
-        
+
 //         // "Paper_ID": "http://arxiv.org/abs/2304.01166v1",
 //         // "Title_En": "Effective Feature Extraction for Intrusion Detection System using Non-negative Matrix Factorization and Univariate analysis",
 //         // "Title_Ja": "非負行列因子化と単変量解析を用いた侵入検知システムのための効率的な特徴抽出",
@@ -279,7 +314,7 @@ console.log("currentDetailPaper.Content_En", currentDetailPaper.Content_En);
 //         // "Published": "2023-04-03 17:33:28+00:00",
 //         // "Content_En": "An Intrusion detection system (IDS) is essential for avoiding maliciousactivity. Mostly, IDS will be improved by machine learning approaches, but themodel efficiency is degrading because of more headers (or features) present inthe packet (each record). The proposed model extracts practical features usingNon-negative matrix factorization and chi-square analysis. The more number offeatures increases the exponential time and risk of overfitting the model.Using both techniques, the proposed model makes a hierarchical approach thatwill reduce the features quadratic error and noise. The proposed model isimplemented on three publicly available datasets, which gives significantimprovement. According to recent research, the proposed model has improvedperformance by 4.66% and 0.39% with respective NSL-KDD and CICD 2017.",
 //         // "Pdf_url": "http://arxiv.org/pdf/2304.01166v1"
-    
+
 //     })
 //         .then(res => {
 //             // console.log(2)
