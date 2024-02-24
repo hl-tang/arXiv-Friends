@@ -242,7 +242,7 @@ def recommend():
     return paper_recommend
 
 
-@app.post("/api/arxiv/")
+@app.get("/api/arxiv/")
 async def arxiv():
     # 模拟3秒延迟
     await asyncio.sleep(2.5)
