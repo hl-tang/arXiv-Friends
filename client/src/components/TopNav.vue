@@ -96,7 +96,7 @@ import LogoutVariantIcon from "vue-material-design-icons/LogoutVariant.vue";
 import TranslateIcon from "vue-material-design-icons/Translate.vue";
 
 import { useI18n } from 'vue-i18n'
-const { locale, t } =useI18n()
+const { locale, t } = useI18n()
 function changeLanguage(lang) {
   locale.value = lang
 }
@@ -150,7 +150,16 @@ const getFivePapers = () => {
       })
   }
   else {
-    axios.post('http://127.0.0.1:8000/api/arxiv/', { "Search": searchContent.value })
+    // axios.post('http://127.0.0.1:8000/api/arxiv/', { "Search": searchContent.value })
+    /* 注意 api/arxiv/ 后面不能有/  django-ninja对末尾的slash很敏感
+    "GET /api/arxiv?search_content=smart+contract HTTP/1.1" 200
+    "GET /api/arxiv/?search_content=smart+contract HTTP/1.1" 404
+    */
+    axios.get('http://127.0.0.1:8000/api/arxiv', {
+      params: {
+        search_content: searchContent.value // 将搜索内容作为查询参数传递
+      }
+    })
       .then(res => {
         // console.log(2)
         waitingArxiv.value = false
