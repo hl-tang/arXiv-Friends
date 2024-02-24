@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from arXiv_friends.api import api
+from arxiv_search_paper.api import arxiv_search_paper_api
+
+api.add_router("", arxiv_search_paper_api)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api/", api.urls),
 ]
