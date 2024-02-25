@@ -94,3 +94,5 @@ response body:
 返回数据库clicked_paper表，按照点击数降序
 
 `/api/recommend` GET
+
+response body和检索一样的list
