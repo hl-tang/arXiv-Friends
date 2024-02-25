@@ -3,6 +3,14 @@
 import arxiv
 import datetime
 from deep_translator import GoogleTranslator
+import json
+
+# 指定文件路径 (相对于manage.py)
+file_path = "./arxiv_search_paper/cat_dic_en.json"
+# 读取 JSON 文件
+with open(file_path, "r") as f:
+    cat_dic = json.load(f)
+# print(cat_dic)
 
 def arxiv_search_latest_5_papers(search_content: str) -> list:
     search_result_list = []
@@ -26,6 +34,7 @@ def arxiv_search_latest_5_papers(search_content: str) -> list:
         cur_paper["Title_En"] = r.title
         cur_paper["Title_Ja"] = GoogleTranslator(source='en', target='ja').translate(text=r.title)
         cur_paper["Authors"] = [author.name for author in r.authors]
+        cur_paper["Categories"] = [cat_dic[category] for category in r.categories if category in cat_dic]
         cur_paper["Published"] = r.published.strftime("%Y-%m-%d %H:%M:%S%z")
         cur_paper["Content_En"] = r.summary
         cur_paper["Pdf_url"] = r.pdf_url

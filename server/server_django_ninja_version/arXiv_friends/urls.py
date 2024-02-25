@@ -18,8 +18,10 @@ from django.contrib import admin
 from django.urls import path
 from arXiv_friends.api import api
 from arxiv_search_paper.api import arxiv_search_paper_api
+from gpt_simplify.api import gpt_simplify_api
 
 api.add_router("", arxiv_search_paper_api)
+api.add_router("", gpt_simplify_api)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -95,7 +95,7 @@ const goDetailPaper = () => {
     // axios获取detailpaper的数据 访问后端api/paper
     waitingPaper.value = true
     // console.log(1)
-    axios.post('http://127.0.0.1:8000/api/paper/', {
+    axios.post('http://127.0.0.1:8000/api/simplify', {
         //又忘了.value了
         "Paper_ID": Paper_ID.value,
         "Title_En": Title_En.value,

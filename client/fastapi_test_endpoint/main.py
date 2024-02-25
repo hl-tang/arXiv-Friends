@@ -249,7 +249,7 @@ async def arxiv():
     return paper_arxiv
 
 
-@app.post("/api/paper/")
+@app.post("/api/simplify/")
 async def paper():
     # 模拟3秒延迟
     await asyncio.sleep(3.5)

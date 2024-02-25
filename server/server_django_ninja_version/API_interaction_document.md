@@ -41,3 +41,56 @@ response body: 返回paper json的list
 
 
 
+## GPT简化
+
+添加摘要的日语翻译，然后gpt简化翻译，抽取5个关键词并解释
+
+endpoint: `/api/simplify`
+
+POST: 通过GPT处理的简化日语摘要，关键词 存在数据库。省得再次点击通篇文字在经过GPT处理，直接数据库返回。
+
+存数据库里需要加一个字段count，统计点击了多少次用于recommendation
+
+
+
+request body: 虽然只需要日语摘要就够了，但为了把其他字段都存到数据库里，所以请求体还是要其他的字段的。
+
+```
+{
+	"Paper_ID": Paper_ID.value,
+     "Title_En": Title_En.value,
+     "Title_Ja": Title_Ja.value,
+     "Authors": Authors.value,
+     "Categories": Categories.value,
+     "Published": Published.value,
+     "Content_En": Content_En.value,
+     "Pdf_url": Pdf_url.value
+}
+```
+
+response body:
+
+```
+{
+"Paper_ID":
+"Content_En": "",
+"Content_Ja": "",
+"Content_plain": "",
+"Keywords": [
+	{"Keyword": "", "Description": ""},
+	{"Keyword": "", "Description": ""},
+	{"Keyword": "", "Description": ""},
+	{"Keyword": "", "Description": ""},
+	{"Keyword": "", "Description": ""}
+]
+"clicked_count":
+}
+```
+
+
+
+## recommendation
+
+返回数据库clicked_paper表，按照点击数降序
+
+`/api/recommend` GET
