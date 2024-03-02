@@ -136,7 +136,7 @@ const like = () => {
 // isFirstTimeAccess 写在home的话每次跳到/都会重新赋值为true
 // 故isFirstTimeAccess必须是全局的
 const firstTimeGetRecommendedPapers = () => {
-  axios.get('http://127.0.0.1:8000/api/recommend') //recommend/后面有slash会导致ninja api 404
+  axios.get('http://127.0.0.1:8000/api/recommend') //recommend/后面有slash会导致ninja api 404(如果@recommendation_api.get("/recommend")最后也没有slash的话 )
     .then(res => {
       console.log(res.data)
       fivePapersStore.fivePapers = res.data

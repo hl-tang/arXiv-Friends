@@ -4,7 +4,7 @@ from .schemas import ClickedPaperOut
 
 recommendation_api = Router()
 
-@recommendation_api.get("/recommend")
+@recommendation_api.get("/recommend/")
 def list_clicked_paper(request):
     # return ClickedPaper.objects.all()
     clicked_papers = ClickedPaper.objects.order_by('-clicked_count', '-published')[:10]
