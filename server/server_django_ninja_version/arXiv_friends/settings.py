@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure-j9(z!0*na12@_=owm2c83dgv^)-3g=2sd^iz9@yi*9b3%v9#y7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# 其实这里也应该配置为 前端部署的服务器ip(域名); 这里配置的就可以访问后端api了
+# ALLOWED_HOSTS = ['127.0.0.1', '47.91.1.87']
+ALLOWED_HOSTS = ['*'] #安全上的考虑这样其实不好
 
 # Application definition
 
@@ -127,7 +128,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
+# 其实这里可以配置为 前端部署的服务器ip(域名)
+""" CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5173"
-]
+] """
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
