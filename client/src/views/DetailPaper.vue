@@ -223,12 +223,25 @@ const { waitingPaper } = storeToRefs(waitingStore)
 //pinia的东西要是storeToRefs变成响应式的了，使用就要.value
 
 import { useChoosedPaperInfoStore } from '../stores/choosedPaperInfo'
+// const choosedPaperInfoStore = useChoosedPaperInfoStore()
 
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
 
 let choosedPaperInfoStore;
 if (revisit == "false") {
   choosedPaperInfoStore = useChoosedPaperInfoStore();
-  localStorage.setItem('current_paper', JSON.stringify(choosedPaperInfoStore));
+  localStorage.setItem('current_paper', JSON.stringify(choosedPaperInfoStore, getCircularReplacer()));
   let revisit = "true";
   localStorage.setItem('status', revisit);
 } else {

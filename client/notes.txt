@@ -34,3 +34,11 @@ PaperRow 写axios访问api/paper的函数
 
 ---
 可以把后端的db.sqlite3删了，再python manage.py migrate，这样数据库清空。再次访问paper就会等待长时间，适合展示waiting的功能
+
+---
+最早detailpaper页面如果浏览器刷新reload的话，会加载不出来。
+后来组里同学改了，但因为用了JSON.stringify，导致我build完的静态文件用nginx部署后，访问detailpaper出bug，页面空白。报错TypeError: cyclic object value
+
+查阅 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Errors/Cyclic_object_value
+https://blog.csdn.net/qq_17627195/article/details/118543310 后解决了detailpaper空白的问题
+但是Nginx部署后reload却不行了
