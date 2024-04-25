@@ -138,7 +138,7 @@ const getFivePapers = () => {
   console.log(searchContent)
   //别忘了script要value，之前"Search": searchContent就错了  有问题console.log()检查
   if (searchContent.value.trim() === "") {
-    axios.get('http://127.0.0.1:8000/api/recommend/')
+    axios.get('/api/recommend/')
       .then(res => {
         waitingArxiv.value = false
         hasSearched.value = false
@@ -155,7 +155,7 @@ const getFivePapers = () => {
     "GET /api/arxiv?search_content=smart+contract HTTP/1.1" 200
     "GET /api/arxiv/?search_content=smart+contract HTTP/1.1" 404
     */
-    axios.get('http://127.0.0.1:8000/api/arxiv', {
+    axios.get('/api/arxiv', {
       params: {
         search_content: searchContent.value // 将搜索内容作为查询参数传递
       }

@@ -6,6 +6,10 @@ import router from "./router";
 import i18n from "./i18n";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "element-plus/theme-chalk/dark/css-vars.css";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://127.0.0.1:8000";
+// axios.defaults.baseURL = "http://192.168.122.150:8000";
 
 const pinia = createPinia();
 const app = createApp(App);
