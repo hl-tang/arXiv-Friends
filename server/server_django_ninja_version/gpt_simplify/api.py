@@ -14,6 +14,8 @@ gpt_simplify_api = Router()
 测试ok后, 再创建数据库记录
 最后可以再SchemaOut规定输出json格式 (数据库字段名和返回json的key名不同,估计不能用SchemaOut)
 """
+
+# extract_5_keywords可能不安定，拆成两个API(这样需要拆论文表了，把简化摘要和关键词作为论文表的弱entity)
 @gpt_simplify_api.post("/simplify")
 def gpt_simplify(request, payload: GPTSimplifyIn):
     # 如果数据库里已经存在，那直接返回，不必再问GPT (count+1)

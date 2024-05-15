@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'gpt_simplify',
     'recommendation',
     "corsheaders",
+    'user_authentication',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+AUTH_USER_MODEL = 'user_authentication.User'
