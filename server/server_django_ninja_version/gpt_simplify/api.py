@@ -1,8 +1,9 @@
 from ninja import Router
-from .models import ClickedPaper
-from .schemas import GPTSimplifyIn, GPTSimplifyOut
+from .models import Paper, SimplifyAbstract, Keywords
+from .schemas import GPTSimplifyIn
 from deep_translator import GoogleTranslator
 from .gpt_operate import gpt_simplify_ja, gpt_extract_5_keywords
+from user_authentication.models import UserBrowsePaperHistory
 
 gpt_simplify_api = Router()
 
@@ -17,53 +18,54 @@ gpt_simplify_api = Router()
 
 # extract_5_keywords可能不安定，拆成两个API(这样需要拆论文表了，把简化摘要和关键词作为论文表的弱entity)
 @gpt_simplify_api.post("/simplify")
-def gpt_simplify(request, payload: GPTSimplifyIn):
+def translate_and_simplify_abstract(request, payload: GPTSimplifyIn):
+    # 因为点击了详细页面，count+1
+    clicked_paper = Paper.objects.filter(paper_id = payload.Paper_ID).first()
+    clicked_paper.clicked_count += 1
+    clicked_paper.save()
+
     # 如果数据库里已经存在，那直接返回，不必再问GPT (count+1)
-    existing_paper = ClickedPaper.objects.filter(
+    existing_simplified_abstract = SimplifyAbstract.objects.filter(
         paper_id = payload.Paper_ID
     ).first()
 
-    if existing_paper:
-        existing_paper.clicked_count += 1
-        existing_paper.save()
+    if existing_simplified_abstract:
         return {
-            "paper_id": existing_paper.paper_id,
+            "paper_id": clicked_paper.paper_id,
             "Content_En": payload.Content_En,
-            "Content_Ja": existing_paper.content_ja,
-            "Content_plain": existing_paper.content_plain,
-            "Keywords": existing_paper.keywords_list,
-            "clicked_count": existing_paper.clicked_count
+            "Content_Ja": existing_simplified_abstract.content_ja,
+            "Content_plain": existing_simplified_abstract.content_plain,
+            # "Keywords": existing_paper.keywords_list,
+            "clicked_count": clicked_paper.clicked_count
         }
 
-    # 若不存在，则问gpt，然后数据库保存这条记录(clicked_count默认为1)
+    # 若不存在，则问gpt，然后数据库保存这条记录
     # 先翻译abstract
     content_ja = GoogleTranslator(
         source='en', target='ja').translate(text=payload.Content_En)
     # GPT简化
     content_plain = gpt_simplify_ja(content_ja)
+    print(content_plain)
     # GPT提取5个关键词
-    keywords_list = gpt_extract_5_keywords(content_ja)
+    # keywords_list = gpt_extract_5_keywords(content_ja)
     # 创建一条记录 (payload的字段名和数据库的字段名不一致，没法用payload.dict())
     # 不然可以 payload_dict = payload.dict(), payload_dict['other_field1'] = 'value1' 少写点dirty work
-    clicked_paper = ClickedPaper.objects.create(
+    simplified_abstract = SimplifyAbstract.objects.create(
         paper_id = payload.Paper_ID,
-        title_en = payload.Title_En,
-        title_ja = payload.Title_Ja,
-        author = payload.Authors,
-        categories = payload.Categories,
-        published = payload.Published,
-        content_en = payload.Content_En,
-        pdf_url = payload.Pdf_url,
         content_ja = content_ja,
         content_plain = content_plain,
-        keywords_list = keywords_list,
-        # count默认1
+        # keywords_list = keywords_list,
     )
     return {
         "paper_id": clicked_paper.paper_id,
         "Content_En": payload.Content_En,
         "Content_Ja": content_ja,
         "Content_plain": content_plain,
-        "Keywords": keywords_list,
+        # "Keywords": keywords_list,
         "clicked_count": clicked_paper.clicked_count
     }
+
+# 关键词一方面gpt不安定，一方面不实用，打算把关键词展示栏换成用户写笔记,笔记作为浏览历史的弱实体
+""" @gpt_simplify_api.post("/keywords")
+def gpt_get_keywords():
+    pass """

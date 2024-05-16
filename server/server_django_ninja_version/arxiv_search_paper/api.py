@@ -13,8 +13,9 @@ arxiv_search_paper_api = Router()
 def search_paper(request, payload: ArxivIn):
     return arxiv_search_latest_5_papers(payload.Search) """
 
-# 还是用get，带path/query parameter
+# 带path/query parameter
 # http://127.0.0.1:8000/api/arxiv?search_content=smart%20contract
-@arxiv_search_paper_api.get("/arxiv")
+# post因为把搜索的论文数据写入数据库，语义上是post
+@arxiv_search_paper_api.post("/arxiv")
 def search_paper(request, search_content: str):
     return arxiv_search_latest_5_papers(search_content)

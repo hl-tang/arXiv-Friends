@@ -14,11 +14,3 @@ class GPTSimplifyIn(Schema):
 class KeyWordSchema(Schema):
     Keyword: str
     Description: str
-
-class GPTSimplifyOut(Schema):
-    Paper_ID: str
-    Content_En: str
-    Content_Ja: str
-    Content_plain: str
-    Keywords: list[KeyWordSchema]
-    clicked_count: int

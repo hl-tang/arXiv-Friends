@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
-from gpt_simplify.models import ClickedPaper
+from gpt_simplify.models import Paper
 
 # Create your models here.
 class User(AbstractUser):
@@ -17,8 +17,8 @@ class TouristSession(models.Model):
 
 class UserLikePaper(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    paper_id = models.ForeignKey(ClickedPaper, on_delete=models.CASCADE)
+    paper_id = models.ForeignKey(Paper, on_delete=models.CASCADE)
 
 class UserBrowsePaperHistory(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    paper_id = models.ForeignKey(ClickedPaper, on_delete=models.CASCADE)
+    paper_id = models.ForeignKey(Paper, on_delete=models.CASCADE)

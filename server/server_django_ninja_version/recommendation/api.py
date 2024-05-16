@@ -1,13 +1,13 @@
 from ninja import Router
-from gpt_simplify.models import ClickedPaper
-from .schemas import ClickedPaperOut
+from gpt_simplify.models import Paper
+from .schemas import PaperOut
 
 recommendation_api = Router()
 
 @recommendation_api.get("/recommend/")
 def list_clicked_paper(request):
     # return ClickedPaper.objects.all()
-    clicked_papers = ClickedPaper.objects.order_by('-clicked_count', '-published')[:10]
+    clicked_papers = Paper.objects.order_by('-clicked_count', '-published')[:10]
     # print(clicked_papers)
     return_list = []
     for clicked_paper in clicked_papers:

@@ -16,7 +16,7 @@ def gpt_simplify_ja(content_ja: str) -> str:
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": "次の日本語の文章を分かりやすくして"},
+            {"role": "user", "content": "次の日本語の文章を短く分かりやすくして"},
             {"role": "user", "content": content_ja}
         ]
     )

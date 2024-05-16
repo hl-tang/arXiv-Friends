@@ -4,6 +4,7 @@ import arxiv
 import datetime
 from deep_translator import GoogleTranslator
 import json
+from gpt_simplify.models import Paper
 
 # 指定文件路径 (相对于manage.py)
 file_path = "./arxiv_search_paper/cat_dic_en.json"
@@ -38,8 +39,18 @@ def arxiv_search_latest_5_papers(search_content: str) -> list:
         cur_paper["Published"] = r.published.strftime("%Y-%m-%d %H:%M:%S%z")
         cur_paper["Content_En"] = r.summary
         cur_paper["Pdf_url"] = r.pdf_url
-
         search_result_list.append(cur_paper)
+        
+        Paper.objects.create(
+            paper_id = cur_paper["Paper_ID"],
+            title_en = cur_paper["Title_En"],
+            title_ja = cur_paper["Title_Ja"],
+            author = cur_paper["Authors"],
+            categories = cur_paper["Categories"],
+            published = cur_paper["Published"],
+            content_en = cur_paper["Content_En"],
+            pdf_url = cur_paper["Pdf_url"]
+        )
 
     # for paper in search_result_list:
     #     print(paper, end="\n\n")
