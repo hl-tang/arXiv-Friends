@@ -3,7 +3,7 @@ from .models import Paper, SimplifyAbstract, Keywords
 from .schemas import GPTSimplifyIn
 from deep_translator import GoogleTranslator
 from .gpt_operate import gpt_simplify_ja, gpt_extract_5_keywords
-from user_authentication.models import UserBrowsePaperHistory
+from user_authentication.models import UserBrowsePaperHistory, TouristSession
 
 gpt_simplify_api = Router()
 
@@ -17,7 +17,7 @@ gpt_simplify_api = Router()
 """
 
 # extract_5_keywords可能不安定，拆成两个API(这样需要拆论文表了，把简化摘要和关键词作为论文表的弱entity)
-@gpt_simplify_api.post("/simplify")
+# @gpt_simplify_api.post("/simplify")
 def translate_and_simplify_abstract(request, payload: GPTSimplifyIn):
     # 因为点击了详细页面，count+1
     clicked_paper = Paper.objects.filter(paper_id = payload.Paper_ID).first()
@@ -64,6 +64,19 @@ def translate_and_simplify_abstract(request, payload: GPTSimplifyIn):
         # "Keywords": keywords_list,
         "clicked_count": clicked_paper.clicked_count
     }
+
+@gpt_simplify_api.post("/simplify")
+def simplify_access(request, payload: GPTSimplifyIn):
+    if request.user.is_authenticated:
+        # create参数严格要和数据库里的一样，和model定义的一样没用，按数据库的字段名为准 _id_id
+        # 已经在历史里就不要再添加了
+        if not UserBrowsePaperHistory.objects.filter(user_id_id=request.user.id, paper_id_id=payload.Paper_ID).exists():
+            UserBrowsePaperHistory.objects.create(user_id_id=request.user.id, paper_id_id=payload.Paper_ID)
+        return translate_and_simplify_abstract(request, payload)
+    else:
+        # 游客24内只能使用api3次
+        pass
+    
 
 # 关键词一方面gpt不安定，一方面不实用，打算把关键词展示栏换成用户写笔记,笔记作为浏览历史的弱实体
 """ @gpt_simplify_api.post("/keywords")

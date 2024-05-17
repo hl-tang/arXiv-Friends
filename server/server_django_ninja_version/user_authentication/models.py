@@ -22,3 +22,4 @@ class UserLikePaper(models.Model):
 class UserBrowsePaperHistory(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     paper_id = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    notes = models.TextField(blank=True)
