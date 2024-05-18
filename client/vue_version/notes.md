@@ -46,6 +46,20 @@ pages下创个Play.vue，配好router，随便在里面尝试 (最后.gitignore�
 
 
 
+## TS
+
+src下创建**shims-vue.d.ts**文件
+
+```
+declare module '*.vue';
+```
+
+不然 router导入 import Home from "../pages/Home.vue"; 会飘红
+
+https://stackoverflow.com/questions/54839057/vscode-showing-cannot-find-module-ts-error-for-vue-import-while-compiling-doe
+
+
+
 ### Tailwind CSS
 
 参考 https://tailwindcss.com/docs/guides/vite#vue
@@ -67,6 +81,24 @@ pnpm i vuetify
 ### 关于Icon
 
 https://www.npmjs.com/package/vue-material-design-icons
+
+
+
+## 暗黑模式
+
+https://github.com/dishait/vue-dark-switch
+
+```
+import { useDark, useToggle } from '@vueuse/core'
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+```
+
+
+
+## i18n
+
+https://vue-i18n.intlify.dev/guide/installation.html
 
 
 
