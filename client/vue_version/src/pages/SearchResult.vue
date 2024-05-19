@@ -40,10 +40,6 @@ watch(
 );
 
 
-
-import { useDark } from '@vueuse/core'
-const isDark = useDark()
-
 </script>
 
 <template>

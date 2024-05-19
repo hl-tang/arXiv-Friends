@@ -4,7 +4,8 @@ import Home from "../pages/Home.vue";
 import SearchResult from "../pages/SearchResult.vue";
 import DetailPaper from "../pages/DetailPaper.vue";
 import Profile from "../pages/Profile.vue";
-// import Play from "../pages/Play.vue";
+import LoginRegister from "../pages/LoginRegister.vue";
+import Play from "../pages/Play.vue";
 
 const routes = [
   {
@@ -27,10 +28,15 @@ const routes = [
     name: "Profile",
     component: Profile,
   },
-  /* {
+  {
+    path: "/loginregister",
+    name: "LoginRegister",
+    component: LoginRegister,
+  },
+  {
     path: "/play",
     component: Play,
-  }, */
+  },
 ];
 
 const router = createRouter({

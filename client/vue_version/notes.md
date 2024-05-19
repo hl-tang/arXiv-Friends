@@ -102,6 +102,62 @@ https://vue-i18n.intlify.dev/guide/installation.html
 
 
 
+## vue-cookies
+
+https://www.npmjs.com/package/vue-cookies
+
+```
+pnpm add vue-cookies
+```
+
+main.js里
+
+```
+import VueCookies from "vue-cookies";
+app.use(VueCookies);
+```
+
+使用
+
+```
+const username = ref("");
+username.value = $cookies.get("username")
+```
+
+
+
+注意⚠️
+
+```
+axios.defaults.withCredentials = true;
+```
+
+main.js不加这个axios配置，浏览器不会接受后端发来set的cookie
+
+
+
+⚠️注意⚠️
+
+`axios.post("http://127.0.0.1:8000/api/login/"`  浏览器刷新后cookie丢失
+
+`axios.post("http://localhost:8000/api/login/"`  浏览器刷新后cookie还在
+
+即cookie的Domin要是localhost，不懂为什么127.0.0.1丢失了
+
+*axios*.*defaults*.*baseURL* *=* "http://localhost:8000"; 那改成localhost比较好
+
+---
+
+本质原因在于cookie的SameSite属性有问题:
+
+this set cookie didn t specify a samesite
+
+https://andrewlock.net/understanding-samesite-cookies/
+
+
+
+
+
 ## 构思
 
 home就访问 api/recommend
@@ -117,6 +173,8 @@ home就访问 api/recommend
 ## 注意点
 
 topbar `h-[60px]`定长之后，下面的div要`pt-[60px]`设置与topbar高度相同的上边距，不然会被topbar挡住
+
+
 
 
 

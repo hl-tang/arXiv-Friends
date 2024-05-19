@@ -23,6 +23,9 @@ importers:
       vue:
         specifier: ^3.4.21
         version: 3.4.27(typescript@5.4.5)
+      vue-cookies:
+        specifier: ^1.8.4
+        version: 1.8.4
       vue-dark-switch:
         specifier: ^1.0.6
         version: 1.0.6(vite@5.2.11)(vue@3.4.27(typescript@5.4.5))
@@ -1122,6 +1125,9 @@ packages:
       terser:
         optional: true
 
+  vue-cookies@1.8.4:
+    resolution: {integrity: sha512-9zjvACKE4W0kEb8OQtXzpizKhf6zfFOG/Z1TEUjSJn4Z4rintuAHo8y/FpCUhTWHMmPe8E+Fko+/tiXVM+5jOw==}
+
   vue-dark-switch@1.0.6:
     resolution: {integrity: sha512-M8P2pdoEfO98Zgj3OMDjOgSKTU961oqZoOUidzaP61JzfqVbsEa7KUvQ1pNVx7oeNNXJiYMN147eYxb2oZzPKw==}
     engines: {node: '>=16', pnpm: '>=7.0.0'}
@@ -2208,6 +2214,8 @@ snapshots:
       rollup: 4.17.2
     optionalDependencies:
       fsevents: 2.3.3
+
+  vue-cookies@1.8.4: {}
 
   vue-dark-switch@1.0.6(vite@5.2.11)(vue@3.4.27(typescript@5.4.5)):
     dependencies:

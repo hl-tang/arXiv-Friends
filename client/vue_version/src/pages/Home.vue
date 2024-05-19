@@ -15,9 +15,6 @@ axios.get('/api/recommend') //recommend/后面有slash会导致ninja api 404(如
     console.log(err)
   })
 
-import { useDark } from '@vueuse/core'
-const isDark = useDark()
-
 
 </script>
 

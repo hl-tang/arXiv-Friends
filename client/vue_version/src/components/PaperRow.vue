@@ -19,8 +19,8 @@ import { useOmitAbstractStore } from '../stores/omitAbstract'
 // const omitAbstractStore = useOmitAbstractStore()
 const { omitAbstract } = storeToRefs(useOmitAbstractStore())
 
-// import { useDark } from '@vueuse/core'
-// const isDark = useDark()
+import { useDark } from '@vueuse/core'
+const isDark = useDark()
 
 function formatDate(dateString: string) {
   const date = new Date(dateString);

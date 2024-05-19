@@ -12,9 +12,15 @@ const pinia = createPinia();
 app.use(pinia);
 
 import axios from "axios";
-axios.defaults.baseURL = "http://127.0.0.1:8000";
+// axios.defaults.baseURL = "http://127.0.0.1:8000";
+axios.defaults.baseURL = "http://localhost:8000";
 // axios.defaults.baseURL = "http://192.168.122.150:8000";
 // axios.defaults.baseURL = "http://47.245.14.48";
+
+axios.defaults.withCredentials = true;
+
+import VueCookies from "vue-cookies";
+app.use(VueCookies);
 
 // Vuetify
 import "vuetify/styles";
