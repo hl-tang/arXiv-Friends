@@ -87,6 +87,12 @@ response body:
 }
 ```
 
+---
+
+新版本authors等信息在搜索时就存入数据库，所以访问/simplify只要提供id,content_en就够了
+
+
+
 
 
 ## recommendation

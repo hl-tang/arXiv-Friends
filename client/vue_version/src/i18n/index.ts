@@ -1,8 +1,8 @@
 // https://vue-i18n.intlify.dev/guide/installation.html
 import { createI18n } from 'vue-i18n'
-import localEn from './languages/en.ts'
-import localJa from './languages/ja.ts'
-import localZhCn from './languages/zh-cn.ts'
+import localEn from './languages/en'
+import localJa from './languages/ja'
+import localZhCn from './languages/zh-cn'
 
 const i18n = createI18n({
     legacy: false,

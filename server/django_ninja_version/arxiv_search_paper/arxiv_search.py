@@ -31,26 +31,30 @@ def arxiv_search_latest_5_papers(search_content: str) -> list:
 
     for r in client.results(search):
         cur_paper = {}
-        cur_paper["Paper_ID"] = r.entry_id
-        cur_paper["Title_En"] = r.title
-        cur_paper["Title_Ja"] = GoogleTranslator(source='en', target='ja').translate(text=r.title)
-        cur_paper["Authors"] = [author.name for author in r.authors]
-        cur_paper["Categories"] = [cat_dic[category] for category in r.categories if category in cat_dic]
-        cur_paper["Published"] = r.published.strftime("%Y-%m-%d %H:%M:%S%z")
-        cur_paper["Content_En"] = r.summary
-        cur_paper["Pdf_url"] = r.pdf_url
+        cur_paper["paper_id"] = r.entry_id
+        cur_paper["title_en"] = r.title
+        print(cur_paper["title_en"]) # 输出log，看搜索没出问题
+        cur_paper["title_ja"] = GoogleTranslator(source='en', target='ja').translate(text=r.title)
+        cur_paper["authors"] = [author.name for author in r.authors]
+        cur_paper["categories"] = [cat_dic[category] for category in r.categories if category in cat_dic]
+        cur_paper["published"] = r.published.strftime("%Y-%m-%d %H:%M:%S%z")
+        cur_paper["content_en"] = r.summary
+        cur_paper["pdf_url"] = r.pdf_url
         search_result_list.append(cur_paper)
         
-        Paper.objects.create(
-            paper_id = cur_paper["Paper_ID"],
-            title_en = cur_paper["Title_En"],
-            title_ja = cur_paper["Title_Ja"],
-            author = cur_paper["Authors"],
-            categories = cur_paper["Categories"],
-            published = cur_paper["Published"],
-            content_en = cur_paper["Content_En"],
-            pdf_url = cur_paper["Pdf_url"]
-        )
+        # Paper.objects.create(
+        #     paper_id = cur_paper["Paper_ID"],
+        #     title_en = cur_paper["Title_En"],
+        #     title_ja = cur_paper["Title_Ja"],
+        #     authors = cur_paper["Authors"],
+        #     categories = cur_paper["Categories"],
+        #     published = cur_paper["Published"],
+        #     content_en = cur_paper["Content_En"],
+        #     pdf_url = cur_paper["Pdf_url"]
+        # )
+        if not Paper.objects.filter(paper_id=cur_paper["paper_id"]).exists():
+            # json的key改为和数据库字段名一样后，就可以用**字典来传参
+            Paper.objects.create(**cur_paper)
 
     # for paper in search_result_list:
     #     print(paper, end="\n\n")

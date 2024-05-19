@@ -5,7 +5,7 @@ class Paper(models.Model):
     paper_id = models.CharField(max_length=100, primary_key=True)
     title_en = models.CharField(max_length=400)
     title_ja = models.CharField(max_length=400)
-    author = models.JSONField() #特别注意list类型
+    authors = models.JSONField() #特别注意list类型
     categories = models.JSONField()
     published = models.DateTimeField()
     content_en = models.TextField()

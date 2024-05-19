@@ -65,7 +65,7 @@ def user_like_list(request):
         cur_paper["Paper_ID"] = liked_paper.paper_id
         cur_paper["Title_En"] = liked_paper.title_en
         cur_paper["Title_Ja"] = liked_paper.title_ja
-        cur_paper["Authors"] = liked_paper.author
+        cur_paper["Authors"] = liked_paper.authors
         cur_paper["Categories"] = liked_paper.categories
         cur_paper["Published"] = liked_paper.published
         cur_paper["Content_En"] = liked_paper.content_en
