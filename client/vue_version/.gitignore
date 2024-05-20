@@ -23,4 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-/src/pages/Play.vue
+# /src/pages/Play.vue

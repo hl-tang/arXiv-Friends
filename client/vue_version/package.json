@@ -13,6 +13,7 @@
     "axios": "^1.6.8",
     "element-plus": "^2.7.3",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.21",
     "vue-cookies": "^1.8.4",
     "vue-dark-switch": "^1.0.6",

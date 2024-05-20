@@ -139,7 +139,6 @@ const handleRegister = async () => {
         setTimeout(() => {
           isLogin.value = true;
         }, 1000);
-        console.log("isLoggedIn 2", isLoggedIn.value);
       }
     });
   } catch (error) {

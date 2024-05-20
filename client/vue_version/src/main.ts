@@ -8,7 +8,9 @@ import router from "./router";
 app.use(router);
 
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 
 import axios from "axios";

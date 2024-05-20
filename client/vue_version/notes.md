@@ -156,6 +156,12 @@ https://andrewlock.net/understanding-samesite-cookies/
 
 
 
+## pinia持久化localStorage
+
+pinia-plugin-persistedstate
+
+https://prazdevs.github.io/pinia-plugin-persistedstate/guide/
+
 
 
 ## 构思
