@@ -107,12 +107,13 @@ const handleLogin = async () => {
       // res_data = res.data  一定注意.value
       res_data.value = res.data
       console.log(res_data.value.msg)
-      alert(res_data.value.msg)
+      // alert(res_data.value.msg)
       if (res_data.value.msg === "Login successful") {
         // 等待2秒后执行跳转页面的操作
-        setTimeout(() => {
+        router.push("/");
+        /* setTimeout(() => {
           router.push("/");
-        }, 2000);
+        }, 1000); */
       }
     });
   } catch (error) {

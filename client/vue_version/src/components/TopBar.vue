@@ -43,6 +43,7 @@ const logout = async () => {
       isLoggedIn.value = false;
       console.log("Response Data:", res.data);
     })
+  router.push('/loginregister');
 };
 
 console.log(isLoggedIn.value);
@@ -73,7 +74,7 @@ console.log(isLoggedIn.value);
       <div class="flex items-center justify-end gap-3 min-w-[275px] max-w-[350px] w-full">
         <!-- switch multi language -->
         <el-dropdown trigger="hover">
-          <TranslateIcon :size="30" />
+          <TranslateIcon :size="30" fillColor="#ffcbcb"/>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="changeLanguage('en')">English</el-dropdown-item>
@@ -87,7 +88,7 @@ console.log(isLoggedIn.value);
         <div class="flex items-center mr-5">
           <Switch />
           <button @click="toggleDark()" class="mr-1">
-            <span class="">{{ isDark ? 'Dark' : 'Light' }}</span>
+            <span class="text-slate-100">{{ isDark ? 'Dark' : 'Light' }}</span>
           </button>
         </div>
 

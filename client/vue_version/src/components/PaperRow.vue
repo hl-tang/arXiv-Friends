@@ -10,14 +10,26 @@ const props = defineProps({
   published: String,
   content_en: String,
   pdf_url: String,
-  // categories: Array
+  categories: Array
 })
-// const { paper_id, title_en, title_ja, authors, published, content_en, pdf_url } = toRefs(props);
+const { paper_id, title_en, title_ja, authors, published, content_en, pdf_url, categories } = toRefs(props);
 
 import { storeToRefs } from 'pinia'
 import { useOmitAbstractStore } from '../stores/omitAbstract'
 // const omitAbstractStore = useOmitAbstractStore()
 const { omitAbstract } = storeToRefs(useOmitAbstractStore())
+
+import { useChoosedPaperInfoStore } from '../stores/choosedPaperInfo'
+const {
+  choosed_paper_id,
+  choosed_title_en,
+  choosed_title_ja,
+  choosed_authors,
+  choosed_categories,
+  choosed_published,
+  choosed_pdf_url,
+  choosed_content_en
+} = storeToRefs(useChoosedPaperInfoStore());
 
 import { useDark } from '@vueuse/core'
 const isDark = useDark()
@@ -31,7 +43,15 @@ import { useRoute, useRouter } from "vue-router"
 const router = useRouter()
 
 const jumpDetailPaper = () => {
-  router.push('/detailpaper')
+  choosed_paper_id.value = paper_id.value;
+  choosed_title_en.value = title_en.value;
+  choosed_title_ja.value = title_ja.value;
+  choosed_authors.value = authors.value;
+  choosed_categories.value = categories.value;
+  choosed_published.value = published.value;
+  choosed_pdf_url.value = pdf_url.value;
+  choosed_content_en.value = content_en.value;
+  router.push('/detailpaper');
 }
 
 import FileLinkOutlineIcon from "vue-material-design-icons/FileLinkOutline.vue";
@@ -43,7 +63,8 @@ import FileLinkOutlineIcon from "vue-material-design-icons/FileLinkOutline.vue";
   <!-- w-[1060px]不固定的话，有些paper会不知道为什么超级宽 -->
   <div class="w-[850px] my-2 overflow-hidden flex flex-col justify-between rounded-2xl shadow-2xl  hover:ring-2 ring-gray-500
         border-b hover:border-t hover:border-y-2 hover:border-x cursor-pointer"
-    :class="[omitAbstract ? 'h-[260px]' : 'h-[160px]', isDark ? 'bg-neutral-700' : 'bg-neutral-200']">
+    :class="[omitAbstract ? 'h-[260px]' : 'h-[160px]', isDark ? 'bg-neutral-700' : 'bg-neutral-200']"
+    @click="jumpDetailPaper">
 
     <div class="mx-2 flex -mb-1">
       <div class="mr-2">{{ paper_id }}</div>
