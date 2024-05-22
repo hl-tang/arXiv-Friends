@@ -5,7 +5,7 @@ export default {
   searchResult: "Search result",
   abstract: "abstract",
   hide: "Hide",
-  show: "Show",
+  showAbstract: "Show Abstract",
   authors: "Authors",
   published: "Published",
   categories: "Categories",

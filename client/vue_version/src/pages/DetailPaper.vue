@@ -82,11 +82,11 @@ const postNotes = () => {
 
           <div v-if="loading">
             <!-- <el-skeleton :rows="30" animated /> -->
-            <v-skeleton-loader color="error" type="article"></v-skeleton-loader>
-            <v-skeleton-loader color="error" type="article"></v-skeleton-loader>
+            <v-skeleton-loader color="#ffcbcb" type="article"></v-skeleton-loader>
+            <v-skeleton-loader color="#ffcbcb" type="article"></v-skeleton-loader>
             <div v-for="(item, index) in [1, 2, 3]" :key="index">
               <!-- <span>{{ index }}</span> -->
-              <v-skeleton-loader color="error" type="article"></v-skeleton-loader>
+              <v-skeleton-loader color="#ffcbcb" type="article"></v-skeleton-loader>
             </div>
           </div>
 
@@ -123,19 +123,19 @@ const postNotes = () => {
         </div>
 
         <!-- 右半部分 -->
-        <div class="w-1/3 flex flex-col space-y-6">
+        <div class="w-1/3 flex flex-col space-y-6 mx-8 my-4">
           <!-- 右上部分 -->
           <div class="flex-1 mt-4 bg-gray-300 text-black p-4 space-y-4">
             <!-- <p class="text-lg">右上部分内容</p> -->
-            <div>
+            <div class="">
               <span class="flex">
                 <AccountSchoolIcon :size="25" fillColor="#636363" />
                 <span class="ml-1 mr-4">{{ t('authors') }}:</span>
               </span>
               <!-- {{ choosedPaperInfoStore.Authors }} -->
               <!-- bug:最后一个item会显示, -->
-              <span v-for="name in choosed_authors" :key="name" class="mr-2">
-                {{ name }},
+              <span v-for="(name, index) in choosed_authors" :key="name" class="ml-2">
+                {{ name }}<span v-if="index < choosed_authors.length - 1">,</span>
               </span>
             </div>
 

@@ -58,11 +58,11 @@ const { omitAbstract } = storeToRefs(useOmitAbstractStore())
 
     <div v-if="loading">
       <!-- <el-skeleton :rows="30" animated /> -->
-      <v-skeleton-loader color="error" type="article"></v-skeleton-loader>
-      <v-skeleton-loader color="error" type="article"></v-skeleton-loader>
+      <v-skeleton-loader color="#bdabc4" type="article"></v-skeleton-loader>
+      <v-skeleton-loader color="#bdabc4" type="article"></v-skeleton-loader>
       <div v-for="(item, index) in [1, 2, 3]" :key="index">
         <!-- <span>{{ index }}</span> -->
-        <v-skeleton-loader color="error" type="article"></v-skeleton-loader>
+        <v-skeleton-loader color="#bdabc4" type="article"></v-skeleton-loader>
       </div>
     </div>
 
@@ -70,20 +70,17 @@ const { omitAbstract } = storeToRefs(useOmitAbstractStore())
       <el-scrollbar height="800px" class="mt-2">
         <!-- fixed固定住，不会随着scrollなくなる -->
         <!-- space-y-6放着的话，mt mb都无效；  -->
-        <div class="fixed flex flex-col justify-start mx-2">
-          <div class="rounded w-[130px] h-[40px] flex items-center justify-center"
-            :class="[isDark ? 'bg-neutral-700' : 'bg-neutral-200']">
+        <div class="fixed flex flex-col justify-start m-6">
+          <div class="rounded w-[155px] h-[40px] flex items-center justify-center"
+            :class="[isDark ? 'bg-neutral-700' : 'bg-neutral-300']">
             <span class="text-[15px] font-bold" :class="[isDark ? 'text-gray-200' : 'text-gray-700']">
               {{ t('searchResult') }}
             </span>
           </div>
 
-          <div class="border w-[130px] h-[60px] mt-4 ring-2 hover:ring-4"
-            :class="[isDark ? 'bg-neutral-700' : 'bg-neutral-200']">
-            <div class="flex items-center justify-center">{{ t('abstract') }}</div>
-            <el-switch v-model="omitAbstract" class="flex items-center justify-center px-0.5"
-              style="--el-switch-on-color: #b91026; --el-switch-off-color: #c99898" :active-text="t('show')"
-              :inactive-text="t('hide')" />
+          <div class="flex  items-center justify-center space-x-2">
+            <v-switch v-model="omitAbstract" color="red-darken-3" label="" value="red-darken-3" hide-details></v-switch>
+            <span>{{ t('showAbstract') }}</span>
           </div>
         </div>
 

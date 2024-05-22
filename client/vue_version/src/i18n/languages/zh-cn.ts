@@ -5,7 +5,7 @@ export default {
   searchResult: "搜索结果",
   abstract: "摘要",
   hide: "隐藏",
-  show: "显示",
+  showAbstract: "显示摘要",
   authors: "作者",
   published: "发布日期",
   categories: "类别",
