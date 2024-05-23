@@ -55,11 +55,38 @@ axios.post('/api/simplify', {
     console.log(err)
   })
 
+import { storeToRefs } from 'pinia'
+import { useIsLoggedInStore } from '../stores/isLoggedIn'
+const { isLoggedIn } = storeToRefs(useIsLoggedInStore())
+
 const notes = ref("");
+axios.get('/api/notes/', {
+  params: {
+    paper_id: choosed_paper_id.value
+  }
+})
+  .then(res => {
+    console.log("response data: ", res.data)
+    // notes.value = res.data //小心notes = ref("")而不是ref({})
+    notes.value = res.data.notes
+    console.log("获取到的notes: ", notes.value);
+  })
+  .catch((err) => {
+    console.log(err)
+  })
 
 const postNotes = () => {
-  console.log("notes: " + notes.value);
-
+  if (isLoggedIn.value === false) {
+    alert("please login")
+  }
+  else {
+    console.log("notes: " + notes.value);
+    axios.post('/api/notes/', {
+      "paper_id": choosed_paper_id.value,
+      "notes": notes.value
+    })
+    alert("post success")
+  }
 }
 
 </script>

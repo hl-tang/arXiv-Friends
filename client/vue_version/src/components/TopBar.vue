@@ -133,10 +133,6 @@ console.log(isLoggedIn.value);
 
       </div>
 
-
-
-
-
     </div>
 
   </div>
