@@ -73,9 +73,9 @@ def simplify_access(request, payload: GPTSimplifyIn):
     if request.user.is_authenticated:
         # create参数严格要和数据库里的一样，和model定义的一样没用，按数据库的字段名为准 _id_id
         # 已经在历史里就不要再添加了
-        if not UserBrowsePaperHistory.objects.filter(user_id_id=request.user.id, paper_id_id=payload.paper_id).exists():
+        if not UserBrowsePaperHistory.objects.filter(user_id=request.user.id, paper_id=payload.paper_id).exists():
             UserBrowsePaperHistory.objects.create(
-                user_id_id=request.user.id, paper_id_id=payload.paper_id)
+                user_id=request.user.id, paper_id=payload.paper_id)
         return translate_and_simplify_abstract(request, payload)
     else:
         # 游客24内只能使用api3次

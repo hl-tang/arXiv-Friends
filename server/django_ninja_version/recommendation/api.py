@@ -21,7 +21,6 @@ def list_clicked_paper(request):
         cur_paper["Content_En"] = clicked_paper.content_en
         cur_paper["Pdf_url"] = clicked_paper.pdf_url
         return_list.append(cur_paper)
-
     return return_list """
     # 要返回的json的key名和数据库的字段名一样了，就直接schema定义了返回
     return clicked_papers
