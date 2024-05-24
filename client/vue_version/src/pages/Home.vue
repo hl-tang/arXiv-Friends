@@ -31,7 +31,7 @@ const { omitAbstract } = storeToRefs(useOmitAbstractStore())
   <TopBar />
   <!-- {{ recommendPapers }} template里不加.value -->
   <div class="pt-[70px] items-center">
-    <el-scrollbar height="800px" class="mt-2">
+    <el-scrollbar height="850px" class="mt-2">
       <!-- fixed固定住，不会随着scrollなくなる -->
       <!-- space-y-6放着的话，mt mb都无效；  -->
       <div class="fixed flex flex-col justify-start m-6">

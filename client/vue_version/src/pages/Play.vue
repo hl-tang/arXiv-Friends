@@ -21,6 +21,14 @@ console.log(username.value);  // 导入pinia-plugin-persistedstate后，页面�
 username.value = "aaa";
 console.log(username.value);
 
+
+
+const overlay = ref(false)
+// watch(overlay, val => {
+//   val && setTimeout(() => {
+//     overlay.value = false
+//   }, 3000)
+// })
 </script>
 
 <template>
@@ -57,7 +65,18 @@ console.log(username.value);
 
           <el-button class="mt-4 " type="danger" plain>Danger</el-button>
 
-          
+          <div class="text-center">
+            <v-btn append-icon="mdi-open-in-new" color="deep-purple-accent-4" @click="overlay = !overlay">
+              Launch Application
+            </v-btn>
+
+            <v-overlay :model-value="overlay" class="align-center justify-center">
+              <!-- <v-progress-circular color="primary" size="64" indeterminate></v-progress-circular> -->
+              <v-card title="Card title" text="skjdfhaskjfhaskjfhaskhfaksjhfaksjfdhkj" variant="tonal"></v-card>
+            </v-overlay>
+          </div>
+
+
         </div>
       </div>
     </div>

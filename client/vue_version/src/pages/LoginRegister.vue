@@ -89,7 +89,7 @@ const router = useRouter()
 
 import { storeToRefs } from 'pinia'
 import { useIsLoggedInStore } from '../stores/isLoggedIn'
-const { isLoggedIn } = storeToRefs(useIsLoggedInStore())
+const { isLoggedIn, username } = storeToRefs(useIsLoggedInStore())
 
 
 const handleLogin = async () => {
@@ -98,22 +98,26 @@ const handleLogin = async () => {
   console.log('用户名:', username.value);
   try {
     await axios.post("/api/login/", {
-    // await axios.post("http://localhost:8000/api/login/", {
+      // await axios.post("http://localhost:8000/api/login/", {
       username: loginUsername.value,
       password: loginPassword.value
     }).then(res => {
-      isLoggedIn.value = true;
       console.log("Response Data:", res.data);
       // res_data = res.data  一定注意.value
       res_data.value = res.data
       console.log(res_data.value.msg)
       // alert(res_data.value.msg)
       if (res_data.value.msg === "Login successful") {
-        // 等待2秒后执行跳转页面的操作
+        isLoggedIn.value = true;
+        username.value = loginUsername.value;
         router.push("/");
+        // 等待2秒后执行跳转页面的操作
         /* setTimeout(() => {
           router.push("/");
         }, 1000); */
+      }
+      else {
+        alert(res_data.value.msg)
       }
     });
   } catch (error) {

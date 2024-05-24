@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../pages/Home.vue";
 import SearchResult from "../pages/SearchResult.vue";
 import DetailPaper from "../pages/DetailPaper.vue";
-import Profile from "../pages/Profile.vue";
+import MyPage from "../pages/MyPage.vue";
 import LoginRegister from "../pages/LoginRegister.vue";
 import Play from "../pages/Play.vue";
 
@@ -24,9 +24,9 @@ const routes = [
     component: DetailPaper,
   },
   {
-    path: "/profile",
-    name: "Profile",
-    component: Profile,
+    path: "/mypage",
+    name: "MyPage",
+    component: MyPage,
   },
   {
     path: "/loginregister",

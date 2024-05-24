@@ -28,7 +28,7 @@ import LogoutVariantIcon from "vue-material-design-icons/LogoutVariant.vue";
 
 import { storeToRefs } from 'pinia'
 import { useIsLoggedInStore } from '../stores/isLoggedIn'
-const { isLoggedIn } = storeToRefs(useIsLoggedInStore())
+const { isLoggedIn, username } = storeToRefs(useIsLoggedInStore())
 
 /* const sessionid = ref("");
 sessionid.value = $cookies.get("sessionid");
@@ -112,7 +112,7 @@ console.log(isLoggedIn.value);
 
             <div v-if="showMenu" id="PopupMenu"
               class="absolute bg-white rounded-lg py-1 w-[140px] shadow-xl border top-[55px] -right-5">
-              <router-link to="/profile/${$userStore.id}" @click="showMenu = false"
+              <router-link :to="{ name: 'MyPage', query: { username: username } }" @click="showMenu = false"
                 class="flex items-center justify-start py-3 px-2 hover:bg-gray-100 cursor-pointer">
                 <!-- <StarOutlineIcon :size="17" fillColor="#636363" class="ml-4" /> -->
                 <AccountIcon :size="25" fillColor="#636363" />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs, ref } from "vue"
+import { toRefs, ref, watch } from "vue"
 
 // PaperRow作为子组件被Home和SearchResult引用，Home和SearchResult通过axios从后端获得数据，传给PaperRow
 const props = defineProps({
@@ -55,48 +55,104 @@ const jumpDetailPaper = () => {
 }
 
 import FileLinkOutlineIcon from "vue-material-design-icons/FileLinkOutline.vue";
+import StarIcon from "vue-material-design-icons/Star.vue";
+
+const isLiked = ref(false);
+// 只有在mypage收藏一开始显示黄色星星
+const route = useRoute();
+
+if (route.path === '/mypage') {
+  isLiked.value = true;
+}
+// console.log("isLike:", isLiked.value);
+
+import axios from 'axios';
+
+const likeOrCancel = () => {
+  // 发请求
+  if (isLiked.value === false) {
+    // 收藏
+    axios.post('/api/like/', null, { // null作为请求体（body）占位符
+      params: {
+        paper_id: paper_id.value
+      }
+    }).then(res => {
+      // console.log("Response Data:", res.data)
+      if (res.data.msg) {
+        alert(res.data.msg)
+      }
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+  else {
+    // 取消
+    axios.delete('/api/like/', {
+      params: {
+        paper_id: paper_id.value
+      }
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+  // 真伪转换,写在第一句那判断条件就反过来了
+  isLiked.value = !isLiked.value;
+};
 
 </script>
 
 <template>
   <!-- PaperRow -->
   <!-- w-[1060px]不固定的话，有些paper会不知道为什么超级宽 -->
-  <div class="w-[850px] my-2 overflow-hidden flex flex-col justify-between rounded-2xl shadow-2xl  hover:ring-2 ring-gray-500
+  <div class="flex space-x-10">
+
+    <div class="w-[870px] my-2 overflow-hidden flex flex-col justify-between rounded-2xl shadow-2xl  hover:ring-2 ring-gray-500
         border-b hover:border-t hover:border-y-2 hover:border-x cursor-pointer"
-    :class="[omitAbstract ? 'h-[260px]' : 'h-[160px]', isDark ? 'bg-neutral-700' : 'bg-neutral-200']"
-    @click="jumpDetailPaper">
+      :class="[omitAbstract ? 'h-[265px]' : 'h-[170px]', isDark ? 'bg-neutral-700' : 'bg-neutral-200']"
+      @click="jumpDetailPaper">
 
-    <div class="mx-2 flex -mb-1">
-      <div class="mr-2">{{ paper_id }}</div>
+      <div class="mx-2 flex -mb-1">
+        <div class="mr-2">{{ paper_id }}</div>
 
-      <a :href="pdf_url" target="_blank" class="underline decoration-dashed decoration-pink-600">
-        <file-link-outline-icon :size="25" fillColor="#636363" />
-      </a>
+        <a :href="pdf_url" target="_blank" class="underline decoration-dashed decoration-pink-600">
+          <file-link-outline-icon :size="25" fillColor="#636363" />
+        </a>
+      </div>
+
+      <div class="flex flex-col justify-center items-center text-xl hover:italic bg-rose-500" @click="jumpDetailPaper">
+        <div class="mr-3 font-bold text-gray-950">{{ title_en }}</div>
+        <div class="font-semibold text-gray-800">{{ title_ja }}</div>
+      </div>
+
+      <!-- 需要频繁切换 v-show -->
+      <div v-show="omitAbstract" class="px-6">
+        <el-scrollbar height="90px">
+          <p class="text-base font-semibold" :class="[isDark ? 'text-gray-200' : 'text-gray-700']">
+            {{ content_en }}
+          </p>
+        </el-scrollbar>
+      </div>
+
+      <div class="ml-1 truncate">
+        <span class="mr-2">Authors:</span>
+        {{ authors.join(', ') }}
+      </div>
+      <div class="flex mx-2 -mt-3">
+        <span class="mr-2">Submitted:</span>
+        <p class="date pt-0.5">{{ formatDate(published) }}</p>
+      </div>
     </div>
 
-    <div class="flex flex-col justify-center items-center text-xl hover:italic bg-rose-500" @click="jumpDetailPaper">
-      <div class="mr-3 font-bold text-gray-950">{{ title_en }}</div>
-      <div class="font-semibold text-gray-800">{{ title_ja }}</div>
+    <!-- 把这个div去掉 button由于最外层的flex影响，长度拉满。 flex横向排列纵向拉满，flex-col反过来,所以加个div -->
+    <div class="flex items-center">
+      <button :class="['p-2 rounded-full', isLiked ? 'bg-yellow-500' : 'bg-gray-400', 'hover:p-2.5']"
+        @click="likeOrCancel">
+        <star-icon :size="30" :fillColor="isLiked ? '#ffff00' : '#666666'" />
+      </button>
     </div>
 
-    <!-- 需要频繁切换 v-show -->
-    <div v-show="omitAbstract" class="px-6">
-      <el-scrollbar height="90px">
-        <p class="text-base font-semibold" :class="[isDark ? 'text-gray-200' : 'text-gray-700']">
-          {{ content_en }}
-        </p>
-      </el-scrollbar>
-    </div>
-
-    <div class="ml-1 truncate">
-      <span class="mr-2">Authors:</span>
-      {{ authors.join(', ') }}
-    </div>
-    <div class="flex mx-2 -mt-3">
-      <span class="mr-2">Submitted:</span>
-      <p class="date pt-0.5">{{ formatDate(published) }}</p>
-    </div>
   </div>
+
 </template>
 
 <style scoped>
