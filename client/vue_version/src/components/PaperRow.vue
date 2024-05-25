@@ -68,6 +68,8 @@ if (route.path === '/mypage') {
 
 import axios from 'axios';
 
+const emit = defineEmits(['cancel-like-at-my-page']);
+
 const likeOrCancel = () => {
   // 发请求
   if (isLiked.value === false) {
@@ -94,10 +96,13 @@ const likeOrCancel = () => {
     }).catch((err) => {
       console.log(err)
     });
+    // Emit an event to notify the parent component
+    emit('cancel-like-at-my-page');
   }
   // 真伪转换,写在第一句那判断条件就反过来了
   isLiked.value = !isLiked.value;
 };
+
 
 </script>
 

@@ -64,6 +64,7 @@ def user_like_paper(request, paper_id: str):
 @user_authentication_api.delete("/like/")
 @login_required
 def user_cancel_like_paper(request, paper_id: str):
+    # 按钮黄色星星时点击取消收藏
     existing_record = UserLikePaper.objects.filter(
         user_id=request.user.id, paper_id=paper_id).first()
     if existing_record:

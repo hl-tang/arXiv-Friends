@@ -84,7 +84,7 @@ def simplify_access(request, payload: GPTSimplifyIn):
             "content_en": payload.content_en,
             "content_ja": None, # ninja的修饰器自动把dict转成json了 None->null
             "content_plain": None,
-            "msg": "tourist access can only access 3 times in 24h"
+            "msg": "tourist can only access 3 times in 24h"
         }
 
 
