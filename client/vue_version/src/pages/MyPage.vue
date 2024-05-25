@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TopBar from "../components/TopBar.vue";
 import PaperRow from "../components/PaperRow.vue";
+import PaperRowForHistory from "../components/PaperRowForHistory.vue";
 
 import { storeToRefs } from 'pinia'
 import { useIsLoggedInStore } from '../stores/isLoggedIn'
@@ -37,6 +38,18 @@ const fetchFavoritesCnt = () => {
 };
 fetchFavoritesCnt();  // 进入页面后第一次叩くapi
 
+const fetchHistoryCnt = () => {
+  axios.get('/api/browse-history-cnt/')
+    .then(res => {
+      console.log("browse-history-cnt: ", res.data)
+      history_cnt.value = res.data
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+};
+fetchHistoryCnt();  // 进入页面后第一次叩くapi
+
 
 const currentTab = ref('favorites'); // 当前显示的标签页（'favorites' 或 'history'）
 
@@ -56,6 +69,18 @@ const fetchFavoritesPapers = () => {
 };
 fetchFavoritesPapers();
 
+const fetchHistoryPapers = () => {
+  axios.get('/api/browse-history/')
+    .then(res => {
+      historyPapers.value = res.data
+      console.log("historyPapers: ", historyPapers.value);
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+};
+fetchHistoryPapers();
+
 
 const renewFavorites = () => {
   // 不设置0.5s延迟访问的话，可能PaperRow那里delete请求数据库还没做完，导致这里显示有问题
@@ -65,7 +90,24 @@ const renewFavorites = () => {
   setTimeout(() => {
     fetchFavoritesCnt();
   }, 500);
-}
+};
+
+const renewHistoryDelete = () => {
+  setTimeout(() => {
+    fetchHistoryPapers();
+  }, 500);
+  setTimeout(() => {
+    fetchHistoryCnt();
+  }, 500);
+};
+
+// 0.5s可能数据库还没写入，就去访问api了，而这时的返回结果就不对了因为数据库还没更新
+// 所以设置时间长一点
+const renewHistoryEditNote = () => {
+  setTimeout(() => {
+    fetchHistoryPapers();
+  }, 5000);
+};
 
 
 </script>
@@ -82,7 +124,7 @@ const renewFavorites = () => {
           {{ username }}
         </div>
         <!-- <div class="text-[18px] truncate">email</div> -->
-        <v-btn variant="tonal" class="mt-2">
+        <v-btn variant="tonal" size="small" class="mt-2">
           Edit Profile
         </v-btn>
       </div>
@@ -98,7 +140,7 @@ const renewFavorites = () => {
               :class="currentTab === 'favorites' ? 'border-b-4 border-blue-500 text-blue-400' : 'text-gray-600'"
               class="flex items-center py-2 px-4 focus:outline-none">
               <star-box-icon :size="25" :fillColor="currentTab === 'favorites' ? '#2acaea' : '#636363'" />
-              收藏
+              {{ t('favorites') }}
             </button>
           </el-badge>
 
@@ -107,7 +149,7 @@ const renewFavorites = () => {
               :class="currentTab === 'history' ? 'border-b-4 border-blue-500 text-blue-400' : 'text-gray-600'"
               class="flex items-center py-2 px-4 focus:outline-none">
               <history-icon :size="25" :fillColor="currentTab === 'history' ? '#2acaea' : '#636363'" />
-              浏览历史
+              {{ t('browseHistory') }}
             </button>
           </el-badge>
 
@@ -121,20 +163,26 @@ const renewFavorites = () => {
         <div class="mt-4">
           <div v-if="currentTab === 'favorites'">
             <!-- 收藏内容 -->
-            <p>这里显示收藏的内容...</p>
+            <p v-show="like_cnt === 0" class="text-lg">No favorites content...</p>
 
             <!-- 父组件(MyPage.vue)通过emit监听事件cancel-like-at-my-page，然后触发函数renewFavorites -->
             <div v-for="paper in likedPapers" :key="paper.paper_id" class="flex items-center space-x-3">
               <PaperRow :paper_id="paper.paper_id" :title_en="paper.title_en" :title_ja="paper.title_ja"
                 :content_en="paper.content_en" :pdf_url="paper.pdf_url" :published="paper.published"
-                :authors="paper.authors" :categories="paper.categories"
-                @cancel-like-at-my-page="renewFavorites" />
+                :authors="paper.authors" :categories="paper.categories" @cancel-like-at-my-page="renewFavorites" />
             </div>
 
           </div>
           <div v-else-if="currentTab === 'history'">
             <!-- 浏览历史内容 -->
-            <p>这里显示浏览历史的内容...</p>
+            <p v-show="history_cnt === 0" class="text-lg">No browse history...</p>
+
+            <div v-for="paper in historyPapers" :key="paper.paper_id" class="flex items-center space-x-3">
+              <PaperRowForHistory :paper_id="paper.paper_id" :title_en="paper.title_en" :title_ja="paper.title_ja"
+                :content_en="paper.content_en" :pdf_url="paper.pdf_url" :published="paper.published"
+                :authors="paper.authors" :categories="paper.categories" :has_note="paper.has_note"
+                @delte-history-at-my-page="renewHistoryDelete" @post-note-at-my-page="renewHistoryEditNote" />
+            </div>
           </div>
         </div>
       </div>

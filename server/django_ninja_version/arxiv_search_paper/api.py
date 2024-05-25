@@ -1,4 +1,4 @@
-from .arxiv_search import arxiv_search_latest_5_papers
+from .arxiv_search import arxiv_search_latest_10_papers
 # 不知道为什么相对导入 .arxiv_search不成功 （直接py运行这个文件是不对的，但django runserver起来的话是.arxiv_search或者写全app.文件）
 # print(arxiv_search_latest_5_papers("smart contract"))
 from ninja import Router
@@ -18,4 +18,4 @@ def search_paper(request, payload: ArxivIn):
 # post因为把搜索的论文数据写入数据库，语义上是post
 @arxiv_search_paper_api.post("/arxiv")
 def search_paper(request, search_content: str):
-    return arxiv_search_latest_5_papers(search_content)
+    return arxiv_search_latest_10_papers(search_content)

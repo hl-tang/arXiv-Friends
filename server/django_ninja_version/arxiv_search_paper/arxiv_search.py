@@ -1,7 +1,7 @@
 # 封装一个函数，输入搜索内容，输出相关的10篇文章的list
 
 import arxiv
-import datetime
+from datetime import datetime
 from deep_translator import GoogleTranslator
 import json
 from gpt_simplify.models import Paper
@@ -13,7 +13,7 @@ with open(file_path, "r") as f:
     cat_dic = json.load(f)
 # print(cat_dic)
 
-def arxiv_search_latest_5_papers(search_content: str) -> list:
+def arxiv_search_latest_10_papers(search_content: str) -> list:
     search_result_list = []
 
     # Construct the default API client.
@@ -23,7 +23,7 @@ def arxiv_search_latest_5_papers(search_content: str) -> list:
     # 注意对于有空格关键词多搜索格式，如camera localization要写成\"camera Localization\"，其中的\"表转义
     search = arxiv.Search(
         query=f"\"{search_content}\"",
-        max_results=5,
+        max_results=10,
         sort_by=arxiv.SortCriterion.SubmittedDate
     )
 

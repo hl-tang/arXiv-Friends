@@ -10,4 +10,6 @@ export default {
   published: "リリース日付",
   categories: "ジャンル",
   download: "ダウンロードpdf",
+  favorites: "お気に入り",
+  browseHistory: "閲覧履歴",
 };

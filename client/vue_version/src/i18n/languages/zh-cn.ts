@@ -10,4 +10,6 @@ export default {
   published: "发布日期",
   categories: "类别",
   download: "下载pdf",
+  favorites: "收藏",
+  browseHistory: "浏览历史",
 };

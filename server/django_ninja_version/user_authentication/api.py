@@ -1,10 +1,12 @@
 from ninja import Router
 from .models import User, UserLikePaper, UserBrowsePaperHistory
-from .schemas import RegisterIn, LoginIn, NotesPostIn, NotesGetOut, LikePaperOut
+from .schemas import RegisterIn, LoginIn, NotesPostIn, NotesGetOut, LikePaperOut, BrowsePaperHistoryOut
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from gpt_simplify.models import Paper
+
+from django.db.models import F, Value, BooleanField, ExpressionWrapper, Q
 
 user_authentication_api = Router()
 
@@ -131,3 +133,54 @@ def get_notes(request, paper_id: str):
     if existing_record:
         # return {"notes": existing_record.notes, "123": 456} #response=NotesGetOut定义了schema就只返回schema里有的字段
         return existing_record
+
+
+@user_authentication_api.get("/browse-history-cnt/")
+@login_required
+def user_browse_history_cnt(request):
+    return UserBrowsePaperHistory.objects.filter(user_id=request.user.id).count()
+
+
+# 需要把has_note布尔变量传给前端，用以区别显示
+@user_authentication_api.get("/browse-history/", response=list[BrowsePaperHistoryOut])
+@login_required
+def user_browse_history_list(request):
+    # 获取用户浏览历史记录并联接对应的论文数据
+    browse_history = UserBrowsePaperHistory.objects.filter(
+        user_id=request.user.id).select_related('paper')
+    # select_related('paper')：预加载 paper外键关联的数据，以避免 N+1 查询问题，提高查询效率
+    # print(browse_history)
+
+    # 创建查询集，注释has_note字段 (annotate给QuerySet增加一个表里没有的field)
+    browse_history_with_hasNotes = browse_history.annotate(
+        has_note=ExpressionWrapper(
+            ~Q(notes=""), output_field=BooleanField())
+    )
+    # print(browse_history_with_hasNotes.values())
+    # print(list(browse_history_with_hasNotes.values()))
+    # 保留自己的两个字段"paper_id", "has_note", 其他通过外键 双下划线(__)用于跨表引用字段
+    browse_history_with_hasNotes = browse_history_with_hasNotes.values(
+        "paper_id",
+        "has_note",
+        title_en=F('paper__title_en'),
+        title_ja=F('paper__title_ja'),
+        authors=F('paper__authors'),
+        categories=F('paper__categories'),
+        published=F('paper__published'),
+        content_en=F('paper__content_en'),
+        pdf_url=F('paper__pdf_url'),
+    )
+    # print(browse_history_with_hasNotes[0].values())
+
+    return browse_history_with_hasNotes
+
+
+# 创建一条历史记录会在叩く/simplify时创建
+@user_authentication_api.delete("/browse-history/")
+@login_required
+def user_delete_simplify_history(request, paper_id: str):
+    existing_record = UserBrowsePaperHistory.objects.filter(
+        user_id=request.user.id, paper_id=paper_id).first()
+    if existing_record:
+        existing_record.delete()
+        return {"msg": "history deleted"}

@@ -10,4 +10,6 @@ export default {
   published: "Published",
   categories: "Categories",
   download: "Download",
+  favorites: "Favorites",
+  browseHistory: "History"
 };
