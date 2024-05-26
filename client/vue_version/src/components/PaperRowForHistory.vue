@@ -68,7 +68,7 @@ const emit = defineEmits(['delte-history-at-my-page', 'post-note-at-my-page']);
 
 const notes = ref("");
 
-const checkAndEditNote = () => {
+const checkNotes = () => {
   dialog.value = true;
 
   axios.get('/api/notes/', {
@@ -85,10 +85,6 @@ const checkAndEditNote = () => {
     .catch((err) => {
       console.log(err)
     })
-
-  // Emit an event to notify the parent component
-  emit('post-note-at-my-page');
-
 };
 
 const postNotes = () => {
@@ -96,8 +92,15 @@ const postNotes = () => {
     "paper_id": paper_id.value,
     "notes": notes.value
   })
+    .then(res => {
+      // Emit an event to notify the parent component
+      emit('post-note-at-my-page');
+    });
   alert("post success")
-}
+  // Emit an event to notify the parent component
+  //写在.then外面就不会等写入数据库之后再emit,从而导致MyPage renewHistoryEditNote时数据库还没更新而返回错的结果导致显示有问题
+  // emit('post-note-at-my-page');
+};
 
 
 const deleteHistory = () => {
@@ -105,11 +108,12 @@ const deleteHistory = () => {
     params: {
       paper_id: paper_id.value
     }
+  }).then(res => {
+    // Emit an event to notify the parent component
+    emit('delte-history-at-my-page');
   }).catch((err) => {
     console.log(err)
   });
-  // Emit an event to notify the parent component
-  emit('delte-history-at-my-page');
 };
 
 
@@ -167,7 +171,7 @@ const deleteHistory = () => {
       <div class="text-center pa-4">
 
         <button :class="['p-2 rounded-full', has_note ? 'bg-red-400 hover:bg-red-300' : 'bg-gray-400', 'hover:p-2.5']"
-          @click="checkAndEditNote">
+          @click="checkNotes">
           <note-edit-icon :size="30" :fillColor="has_note ? '#000000' : '#666666'" />
         </button>
 

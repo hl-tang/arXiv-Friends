@@ -93,11 +93,12 @@ const likeOrCancel = () => {
       params: {
         paper_id: paper_id.value
       }
+    }).then(res => {
+      // Emit an event to notify the parent component
+      emit('cancel-like-at-my-page');
     }).catch((err) => {
       console.log(err)
     });
-    // Emit an event to notify the parent component
-    emit('cancel-like-at-my-page');
   }
   // 真伪转换,写在第一句那判断条件就反过来了
   isLiked.value = !isLiked.value;

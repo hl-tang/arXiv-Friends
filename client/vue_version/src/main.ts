@@ -14,7 +14,7 @@ pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 
 import axios from "axios";
-// axios.defaults.baseURL = "http://127.0.0.1:8000";
+// axios.defaults.baseURL = "http://127.0.0.1:8000"; //浏览器刷新后cookie丢失,但localhost却可以
 axios.defaults.baseURL = "http://localhost:8000";
 // axios.defaults.baseURL = "http://192.168.122.150:8000";
 // axios.defaults.baseURL = "http://47.245.14.48";

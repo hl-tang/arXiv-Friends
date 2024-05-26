@@ -81,7 +81,7 @@ const fetchHistoryPapers = () => {
 };
 fetchHistoryPapers();
 
-
+// !!!把emit写在axios的.then里!!! 保证后端数据库写入返回了再hit get endpoint
 const renewFavorites = () => {
   // 不设置0.5s延迟访问的话，可能PaperRow那里delete请求数据库还没做完，导致这里显示有问题
   setTimeout(() => {
@@ -106,7 +106,7 @@ const renewHistoryDelete = () => {
 const renewHistoryEditNote = () => {
   setTimeout(() => {
     fetchHistoryPapers();
-  }, 5000);
+  }, 500);
 };
 
 
