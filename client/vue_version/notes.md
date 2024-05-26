@@ -170,7 +170,7 @@ home就访问 api/recommend
 
 搜索就跳到搜索结果的页面url不再是/了，而且加上query para
 
-在home或searchresult页面点击了paperRow组件后，由于跳到detailpaper页面需要先展示title,authors等信息，所以不能等axios（事实后端只返回摘要，不返回余計的东西了）。**那点击了一个要简化的paperRow之后，应该把这篇论文的id,title,authors等信息存为 状态管理 **以便到了detailpaper页面可以直接展示相关信息。访问/simplify endpoint应该在detailpaper组件进行(页面刷新了之后还能访问api。之前的做法在paperRow里axios发请求导致，导致已经跳到了detailpaper后刷新页面空白)
+在home或searchresult页面点击了paperRow组件后，由于跳到detailpaper页面需要先展示title,authors等信息，所以不能等axios（事实后端只返回摘要，不返回余計的东西了）。**那点击了一个要简化的paperRow之后，应该把这篇论文的id,title,authors等信息存为 状态管理 **以便到了detailpaper页面可以直接展示相关信息。访问/simplify endpoint应该在detailpaper组件进行(页面刷新了之后还能访问api。之前的做法在paperRow里axios发请求，导致已经跳到了detailpaper后刷新页面空白)
 
 
 
