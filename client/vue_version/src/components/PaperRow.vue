@@ -70,7 +70,15 @@ import axios from 'axios';
 
 const emit = defineEmits(['cancel-like-at-my-page']);
 
+import { useIsLoggedInStore } from '../stores/isLoggedIn'
+const { isLoggedIn } = storeToRefs(useIsLoggedInStore())
+
 const likeOrCancel = () => {
+  if (isLoggedIn.value === false) {
+    alert("please login");
+    return;
+  }
+
   // 发请求
   if (isLiked.value === false) {
     // 收藏
