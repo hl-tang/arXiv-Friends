@@ -1,6 +1,10 @@
 # arXiv Friends
 arXivの英語論文を専門外の人にもわかりやすく日本語で。
 
+## Demo Video
+
+https://github.com/hl-tang/arXiv-friends/assets/98689797/26dcb3f8-3b1e-4b6b-8cee-f3d494222714
+
 ## 画面
 
 home_page
