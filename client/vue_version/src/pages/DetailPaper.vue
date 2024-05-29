@@ -35,7 +35,13 @@ function formatDate(dateString) {
 }
 
 const loading = ref(true);
-const res_data = ref({});
+// const res_data = ref({});  //这样pnpm run build时因为ts而编译不过
+interface ResData {
+  content_ja: string;
+  content_plain: string;
+  msg: string;
+}
+const res_data = ref({} as ResData);
 import axios from 'axios'
 axios.post('/api/simplify', {
   "paper_id": choosed_paper_id.value,
@@ -55,7 +61,6 @@ axios.post('/api/simplify', {
     console.log(err)
   })
 
-import { storeToRefs } from 'pinia'
 import { useIsLoggedInStore } from '../stores/isLoggedIn'
 const { isLoggedIn } = storeToRefs(useIsLoggedInStore())
 

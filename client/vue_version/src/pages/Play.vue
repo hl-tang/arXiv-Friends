@@ -55,8 +55,8 @@ const overlay = ref(false)
         <!-- 右下部分 -->
         <div class="flex-1 bg-gray-400 p-4">
           <!-- <p class="text-lg">右下部分内容</p> -->
-          <v-textarea label="Input your notes here:" variant="outlined" v-model="notes"
-            placeholder="Notes"></v-textarea>
+          <!-- <v-textarea label="Input your notes here:" variant="outlined" v-model="notes"
+            placeholder="Notes"></v-textarea> -->
 
           <button
             class="self-start bg-red-600 text-gray-300 font-semibold py-2 px-4 rounded-md hover:bg-red-700 hover:text-gray-100">
