@@ -78,14 +78,15 @@ def simplify_access(request, payload: GPTSimplifyIn):
                 user_id=request.user.id, paper_id=payload.paper_id)
         return translate_and_simplify_abstract(request, payload)
     else:
-        # 游客24内只能使用api3次
+        return translate_and_simplify_abstract(request, payload)
+        """ # 游客24内只能使用api3次
         return {
             "paper_id": payload.paper_id,
             "content_en": payload.content_en,
             "content_ja": None, # ninja的修饰器自动把dict转成json了 None->null
             "content_plain": None,
             "msg": "tourist can only access 3 times in 24h"
-        }
+        } """
 
 
 # 关键词一方面gpt不安定，一方面不实用，打算把关键词展示栏换成用户写笔记,笔记作为浏览历史的弱实体

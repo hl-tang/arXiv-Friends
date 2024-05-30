@@ -144,7 +144,9 @@ main.js不加这个axios配置，浏览器不会接受后端发来set的cookie
 
 即cookie的Domin要是localhost，不懂为什么127.0.0.1丢失了
 
-*axios*.*defaults*.*baseURL* *=* "http://localhost:8000"; 那改成localhost比较好
+*axios*.*defaults*.*baseURL* *=* "http://localhost:8000"; 那改成localhost就好了
+
+就是因为node起的服务器地址是localhost:5173,同源的cookie自然好设置。127.0.0.1都跨站了就需要cookie的跨站处理，什么cookie的SameSite
 
 ---
 
@@ -153,6 +155,8 @@ main.js不加这个axios配置，浏览器不会接受后端发来set的cookie
 this set cookie didn t specify a samesite
 
 https://andrewlock.net/understanding-samesite-cookies/
+
+https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
 
 
 
