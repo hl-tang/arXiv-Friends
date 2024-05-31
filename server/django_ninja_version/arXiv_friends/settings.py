@@ -102,7 +102,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "OPTIONS": {
-            "read_default_file": BASE_DIR / "my.cnf",
+            "read_default_file": BASE_DIR / "mariadb.cnf",
         },
     }
 }

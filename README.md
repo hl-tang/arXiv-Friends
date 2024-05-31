@@ -5,14 +5,6 @@
 
 https://github.com/hl-tang/arXiv-friends/assets/98689797/26dcb3f8-3b1e-4b6b-8cee-f3d494222714
 
-## 画面
-
-home_page
-![home_page](./asset/home_page.png)
-
-detail_paper
-![detail_paper](asset/detail_paper.png)
-
 ## 主な機能
 
 - arXivから論文検索
@@ -26,3 +18,6 @@ detail_paper
 
 ![Architecture](./asset/Architecture.png)
 
+## Database Design
+
+![db_design](./asset/db_design.png)
