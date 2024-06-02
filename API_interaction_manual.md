@@ -93,3 +93,12 @@ home或searchresult因为不知道用户到底收藏了没有，前端先统一�
 后来发现是emit写在了axios的外面，导致异步先去get访问api了。就和loading的问题一样。
 
 
+
+**历史**
+
+由于需要根据是否写了笔记而展示灰色或红色的笔记按钮，还有一个删除历史按钮，和其他的带收藏星星的PaperRow不同。于是单独开一个PaperRowForHistory的组件。同时和其他的PaperRow不同的是，props额外接受一个has_note的布尔值，根据此来决定展示红或灰。
+
+后端返回browse_history_list时需要把has_note布尔变量传给前端，用以区别显示
+
+然后，在PaperRowForHistory组件里要是编辑了notes或者删除了历史，就通过emit通知到MyPage.vue触发`@delte-history-at-my-page="renewHistoryDelete" @post-note-at-my-page="renewHistoryEditNote"`重新获取browse_history_list重新渲染页面，只是renewHistoryEditNote就不需要获取HistoryCnt了，总量肯定没变。
+
