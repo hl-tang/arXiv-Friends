@@ -10,6 +10,7 @@ distro==1.9.0
 Django==5.0.2
 django-cors-headers==4.3.1
 django-ninja==1.1.0
+django-redis==5.4.0
 feedparser==6.0.10
 h11==0.14.0
 httpcore==1.0.4
@@ -22,6 +23,7 @@ pydantic==2.6.2
 pydantic_core==2.16.3
 PyMySQL==1.1.1
 python-dotenv==1.0.1
+redis==5.0.5
 requests==2.31.0
 sgmllib3k==1.0.0
 sniffio==1.3.0

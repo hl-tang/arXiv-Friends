@@ -4,6 +4,8 @@ from .schemas import GPTSimplifyIn
 from deep_translator import GoogleTranslator
 from .gpt_operate import gpt_simplify_ja, gpt_extract_5_keywords
 from user_authentication.models import UserBrowsePaperHistory, TouristSession
+# from django.core.cache import cache
+import redis
 
 gpt_simplify_api = Router()
 
@@ -19,6 +21,8 @@ gpt_simplify_api = Router()
 # extract_5_keywords可能不安定，拆成两个API(这样需要拆论文表了，把简化摘要和关键词作为论文表的弱entity)
 # @gpt_simplify_api.post("/simplify")
 
+r = redis.Redis(host='127.0.0.1', port=6379,
+                password='chedishibai', decode_responses=True, db=0)
 
 def translate_and_simplify_abstract(request, payload: GPTSimplifyIn):
     # 因为点击了详细页面，count+1
@@ -27,11 +31,28 @@ def translate_and_simplify_abstract(request, payload: GPTSimplifyIn):
     clicked_paper.save()
 
     # 如果数据库里已经存在，那直接返回，不必再问GPT (count+1)
+    # 如果redis缓存里有，都不用问数据库了
+    existing_cached_simplified_abstract = r.hgetall(f"simplify_abstract:{payload.paper_id}")
+    if existing_cached_simplified_abstract:
+        return {
+            "paper_id": clicked_paper.paper_id,
+            "content_en": payload.content_en,
+            "content_ja": existing_cached_simplified_abstract['content_ja'],
+            "content_plain": existing_cached_simplified_abstract['content_plain'],
+            "clicked_count": clicked_paper.clicked_count
+        }
+    
+    # 缓存没有再问数据库
     existing_simplified_abstract = SimplifyAbstract.objects.filter(
         paper_id=payload.paper_id
     ).first()
 
     if existing_simplified_abstract:
+        # 写入缓存
+        r.hset(f"simplify_abstract:{payload.paper_id}", mapping={
+            "content_ja": existing_simplified_abstract.content_ja,
+            "content_plain": existing_simplified_abstract.content_plain
+        })
         return {
             "paper_id": clicked_paper.paper_id,
             "content_en": payload.content_en,
@@ -40,7 +61,7 @@ def translate_and_simplify_abstract(request, payload: GPTSimplifyIn):
             # "Keywords": existing_paper.keywords_list,
             "clicked_count": clicked_paper.clicked_count
         }
-
+    
     # 若不存在，则问gpt，然后数据库保存这条记录
     # 先翻译abstract
     content_ja = GoogleTranslator(
@@ -58,6 +79,11 @@ def translate_and_simplify_abstract(request, payload: GPTSimplifyIn):
         content_plain=content_plain,
         # keywords_list = keywords_list,
     )
+    # 写入缓存
+    r.hset(f"simplify_abstract:{payload.paper_id}", mapping={
+        "content_ja": content_ja,
+        "content_plain": content_plain
+    })
     return {
         "paper_id": clicked_paper.paper_id,
         "content_en": payload.content_en,

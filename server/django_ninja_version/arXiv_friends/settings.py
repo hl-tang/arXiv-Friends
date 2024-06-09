@@ -107,6 +107,16 @@ DATABASES = {
     }
 }
 
+""" CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "chedishibai"
+        }
+    }
+} """
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -149,6 +159,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'user_authentication.User'
+
 # 其实这里可以配置为 前端部署的服务器ip(域名)
 """ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
@@ -158,4 +170,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-AUTH_USER_MODEL = 'user_authentication.User'
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
+
+# SECURE_REFERRER_POLICY = 'no-referrer'
+# SESSION_COOKIE_SAMESITE = 'None'
